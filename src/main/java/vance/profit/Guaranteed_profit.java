@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vance.profit.item.ModItems;
 
 public class Guaranteed_profit implements ModInitializer {
 	public static final String MOD_ID = "guaranteed_profit";
@@ -11,6 +12,6 @@ public class Guaranteed_profit implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
+		ModItems.registerModItems();
 	}
 }
