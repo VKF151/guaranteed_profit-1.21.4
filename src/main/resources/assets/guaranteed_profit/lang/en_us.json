@@ -1,3 +1,6 @@
 {
- "item.guaranteed_profit.super_diamond": "Super Diamond"
+ "item.guaranteed_profit.super_diamond": "Super Diamond",
+ "block.guaranteed_profit.super_diamond_block": "Block of Super Diamond",
+ "item.guaranteed_profit.super_diamond_block": "Block of Super Diamond",
+ "itemGroup.guaranteed_profit": "Guaranteed Profit"
 }
