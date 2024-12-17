@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,win=false": {
+      "model": "guaranteed_profit:block/slot_machine_lose",
+      "y": 90
+    },
+    "facing=east,win=true": {
+      "model": "guaranteed_profit:block/slot_machine_win",
+      "y": 90
+    },
+    "facing=north,win=false": {
+      "model": "guaranteed_profit:block/slot_machine_lose"
+    },
+    "facing=north,win=true": {
+      "model": "guaranteed_profit:block/slot_machine_win"
+    },
+    "facing=south,win=false": {
+      "model": "guaranteed_profit:block/slot_machine_lose",
+      "y": 180
+    },
+    "facing=south,win=true": {
+      "model": "guaranteed_profit:block/slot_machine_win",
+      "y": 180
+    },
+    "facing=west,win=false": {
+      "model": "guaranteed_profit:block/slot_machine_lose",
+      "y": 270
+    },
+    "facing=west,win=true": {
+      "model": "guaranteed_profit:block/slot_machine_win",
+      "y": 270
+    }
+  }
+}

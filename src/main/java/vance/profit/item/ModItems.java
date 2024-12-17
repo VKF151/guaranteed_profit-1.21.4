@@ -35,6 +35,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(GUARANTEED_PROFIT_GROUP_KEY).register(fabricItemGroupEntries -> {
             fabricItemGroupEntries.add(SUPER_DIAMOND);
             fabricItemGroupEntries.add(ModBlocks.SUPER_DIAMOND_BLOCK.asItem());
+            fabricItemGroupEntries.add(ModBlocks.SLOT_MACHINE.asItem());
         });
     }
 }

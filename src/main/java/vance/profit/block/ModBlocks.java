@@ -2,6 +2,7 @@ package vance.profit.block;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -11,6 +12,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import vance.profit.Guaranteed_profit;
+import vance.profit.block.custom.SlotMachineBlock;
 
 public class ModBlocks {
     public static Block register(Block block, String name, boolean shouldRegisterItem) {
@@ -27,6 +29,12 @@ public class ModBlocks {
     public static final Block SUPER_DIAMOND_BLOCK = register(
             new Block(AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK,Identifier.of(Guaranteed_profit.MOD_ID, "super_diamond_block"))).sounds(BlockSoundGroup.METAL)),
             "super_diamond_block",
+            true
+    );
+
+    public static final Block SLOT_MACHINE = register(
+            new SlotMachineBlock(AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK,Identifier.of(Guaranteed_profit.MOD_ID, "slot_machine"))).sounds(BlockSoundGroup.HEAVY_CORE)),
+            "slot_machine",
             true
     );
 

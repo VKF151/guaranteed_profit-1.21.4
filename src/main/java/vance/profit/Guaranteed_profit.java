@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vance.profit.block.ModBlocks;
+import vance.profit.block.custom.entity.ModBlockEntities;
 import vance.profit.item.ModItems;
 
 public class Guaranteed_profit implements ModInitializer {
@@ -15,5 +16,6 @@ public class Guaranteed_profit implements ModInitializer {
 	public void onInitialize() {
 		ModItems.registerModItems();
 		ModBlocks.initialize();
+		ModBlockEntities.initialize();
 	}
 }

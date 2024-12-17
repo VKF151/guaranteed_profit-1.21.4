@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "guaranteed_profit:block/slot_machine_win"
+  }
+}

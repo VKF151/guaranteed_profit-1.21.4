@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "guaranteed_profit:block/slot_machine_win",
+    "side": "guaranteed_profit:block/slot_machine_side",
+    "top": "guaranteed_profit:block/slot_machine_top"
+  }
+}

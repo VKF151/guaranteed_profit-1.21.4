@@ -2,5 +2,7 @@
  "item.guaranteed_profit.super_diamond": "Super Diamond",
  "block.guaranteed_profit.super_diamond_block": "Block of Super Diamond",
  "item.guaranteed_profit.super_diamond_block": "Block of Super Diamond",
+ "block.guaranteed_profit.slot_machine": "Slot Machine",
+ "item.guaranteed_profit.slot_machine": "Slot Machine",
  "itemGroup.guaranteed_profit": "Guaranteed Profit"
 }
