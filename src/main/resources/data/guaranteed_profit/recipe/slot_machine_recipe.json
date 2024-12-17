@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:diamond",
+    "R": "minecraft:redstone",
+    "X": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "X#X",
+    "XRX",
+    "XRX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "guaranteed_profit:slot_machine"
+  }
+}

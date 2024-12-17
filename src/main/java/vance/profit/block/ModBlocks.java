@@ -33,7 +33,7 @@ public class ModBlocks {
     );
 
     public static final Block SLOT_MACHINE = register(
-            new SlotMachineBlock(AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK,Identifier.of(Guaranteed_profit.MOD_ID, "slot_machine"))).sounds(BlockSoundGroup.HEAVY_CORE)),
+            new SlotMachineBlock(AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK,Identifier.of(Guaranteed_profit.MOD_ID, "slot_machine"))).sounds(BlockSoundGroup.HEAVY_CORE).requiresTool().strength(2.0F, 6.0F)),
             "slot_machine",
             true
     );
