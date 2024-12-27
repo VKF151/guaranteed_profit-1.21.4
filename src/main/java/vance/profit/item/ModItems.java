@@ -2,6 +2,8 @@ package vance.profit.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ChargedProjectilesComponent;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -11,6 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import vance.profit.Guaranteed_profit;
 import vance.profit.block.ModBlocks;
+import vance.profit.item.custom.CrazyCrossbowItem;
 import vance.profit.item.custom.CrazyMaceItem;
 import vance.profit.item.custom.CrazyScytheItem;
 import vance.profit.item.custom.CrazySlotsItem;
@@ -44,13 +47,21 @@ public class ModItems {
                     .attributeModifiers(CrazyMaceItem.createAttributeModifiers())
     ));
 
+    public static final Item CRAZY_CROSSBOW = registerItem("crazy_crossbow", new CrazyCrossbowItem(
+            new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Guaranteed_profit.MOD_ID, "crazy_crossbow")))
+                    .maxCount(1)
+                    .fireproof()
+                    .component(DataComponentTypes.CHARGED_PROJECTILES, ChargedProjectilesComponent.DEFAULT)
+    ));
+
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(Guaranteed_profit.MOD_ID, name), item);
     }
 
     public static final RegistryKey<ItemGroup> GUARANTEED_PROFIT_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(Guaranteed_profit.MOD_ID, "guaranteed_profit_group"));
     public static final ItemGroup GUARANTEED_PROFIT_GROUP = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(ModItems.SUPER_DIAMOND))
+            .icon(() -> new ItemStack(ModItems.CRAZY_SLOTS))
             .displayName(Text.translatable("itemGroup.guaranteed_profit"))
             .build();
 

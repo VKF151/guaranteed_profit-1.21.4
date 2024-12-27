@@ -1,0 +1,6 @@
+{
+  "parent": "guaranteed_profit:item/crazy_crossbow",
+  "textures": {
+    "layer0": "guaranteed_profit:item/crazy_crossbow_pulling_0"
+  }
+}

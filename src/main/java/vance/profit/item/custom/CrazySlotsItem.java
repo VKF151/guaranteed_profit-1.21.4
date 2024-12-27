@@ -24,12 +24,13 @@ public class CrazySlotsItem extends Item {
 
         if (!world.isClient()) {
             Random random = new Random();
-            int randomNumber = random.nextInt(2) + 1;
+            int randomNumber = random.nextInt(3) + 1;
             ItemStack newItem = getWeaponForNumber(randomNumber);
 
             player.setStackInHand(hand, newItem);
             if (randomNumber == 3) {
                 player.giveItemStack(new ItemStack(Items.SPECTRAL_ARROW));
+                CrazyCrossbowItem.canTransform = false;
             }
             world.playSound(null, player.getBlockPos(), SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 0.5f, 1.0f);
             return ActionResult.SUCCESS;
@@ -41,7 +42,7 @@ public class CrazySlotsItem extends Item {
         return switch (number) {
             case 1 -> new ItemStack(ModItems.CRAZY_SCYTHE);
             case 2 -> new ItemStack(ModItems.CRAZY_MACE);
-            case 3 -> new ItemStack(Items.MACE);
+            case 3 -> new ItemStack(ModItems.CRAZY_CROSSBOW);
             case 4 -> new ItemStack(Items.TRIDENT);
             case 5 -> new ItemStack(Items.CROSSBOW);
             case 6 -> new ItemStack(Items.BOW);
