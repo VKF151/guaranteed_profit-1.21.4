@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "guaranteed_profit:item/crazy_scythe_inv"
+  }
+}

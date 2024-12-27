@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:totem_of_undying",
+    "R": "minecraft:redstone",
+    "X": "minecraft:diamond"
+  },
+  "pattern": [
+    "XRX",
+    "X#X",
+    "XRX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "guaranteed_profit:crazy_slots"
+  }
+}

@@ -4,5 +4,8 @@
  "item.guaranteed_profit.super_diamond_block": "Block of Super Diamond",
  "block.guaranteed_profit.slot_machine": "Slot Machine",
  "item.guaranteed_profit.slot_machine": "Slot Machine",
+ "item.guaranteed_profit.crazy_slots": "Crazy Slots",
+ "item.guaranteed_profit.crazy_scythe": "Crazy Scythe",
+ "item.guaranteed_profit.crazy_mace": "Crazy Mace",
  "itemGroup.guaranteed_profit": "Guaranteed Profit"
 }
