@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "guaranteed_profit:item/super_diamond"
+    "layer0": "guaranteed_profit:item/crazy_trident"
   }
 }

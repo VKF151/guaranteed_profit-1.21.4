@@ -1,6 +1,5 @@
 package vance.profit.item.custom;
 
-
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
@@ -9,8 +8,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterial;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -19,8 +16,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import vance.profit.item.ModItems;
 
-public class CrazyScytheItem extends Item {
-    public CrazyScytheItem(Settings settings) {
+public class CrazyAxeItem extends Item {
+    boolean canTransform = false;
+
+    public CrazyAxeItem(Settings settings) {
         super(settings);
     }
 
@@ -30,23 +29,21 @@ public class CrazyScytheItem extends Item {
         return AttributeModifiersComponent.builder()
                 .add(
                         EntityAttributes.ATTACK_DAMAGE,
-                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 10.0, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 8.0, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .add(
                         EntityAttributes.ATTACK_SPEED,
-                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -2.9F, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -3.0F, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .add(
                         EntityAttributes.ENTITY_INTERACTION_RANGE,
-                        new EntityAttributeModifier(BASE_ATTACK_REACH_MODIFIER_ID, 1.0, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_REACH_MODIFIER_ID, 0.25, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .build();
     }
-
-    boolean canTransform = false;
 
     public ActionResult use(World world, PlayerEntity player, Hand hand) {
 
@@ -68,6 +65,4 @@ public class CrazyScytheItem extends Item {
         canTransform = true;
         return true;
     }
-
-
 }

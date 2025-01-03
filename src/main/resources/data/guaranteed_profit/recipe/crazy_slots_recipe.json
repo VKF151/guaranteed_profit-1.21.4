@@ -2,14 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "minecraft:totem_of_undying",
-    "R": "minecraft:redstone",
-    "X": "minecraft:diamond"
+    "T": "minecraft:totem_of_undying",
+    "R": "minecraft:redstone_block",
+    "L": "minecraft:lapis_block",
+    "C": "minecraft:copper_block",
+    "I": "minecraft:iron_block",
+    "S": "guaranteed_profit:slot_machine"
   },
   "pattern": [
-    "XRX",
-    "X#X",
-    "XRX"
+    "LTL",
+    "IRI",
+    "CSC"
   ],
   "result": {
     "count": 1,

@@ -26,12 +26,6 @@ public class ModBlocks {
         return Registry.register(Registries.BLOCK, id, block);
     }
 
-    public static final Block SUPER_DIAMOND_BLOCK = register(
-            new Block(AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK,Identifier.of(Guaranteed_profit.MOD_ID, "super_diamond_block"))).sounds(BlockSoundGroup.METAL)),
-            "super_diamond_block",
-            true
-    );
-
     public static final Block SLOT_MACHINE = register(
             new SlotMachineBlock(AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK,Identifier.of(Guaranteed_profit.MOD_ID, "slot_machine"))).sounds(BlockSoundGroup.HEAVY_CORE).requiresTool().strength(2.0F, 6.0F)),
             "slot_machine",

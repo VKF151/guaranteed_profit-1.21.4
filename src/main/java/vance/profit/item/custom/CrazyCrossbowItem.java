@@ -45,7 +45,7 @@ public class CrazyCrossbowItem extends CrossbowItem {
             ItemStack originalItem = new ItemStack(ModItems.CRAZY_SLOTS);
 
             user.setStackInHand(hand, originalItem);
-            world.playSound(null, user.getBlockPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.5f, 1.0f);
+            world.playSound(null, user.getBlockPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.35f, 1.0f);
             return ActionResult.SUCCESS;
         }
         if (chargedProjectilesComponent != null && !chargedProjectilesComponent.isEmpty()) {

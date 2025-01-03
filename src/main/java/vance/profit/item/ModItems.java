@@ -13,16 +13,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import vance.profit.Guaranteed_profit;
 import vance.profit.block.ModBlocks;
-import vance.profit.item.custom.CrazyCrossbowItem;
-import vance.profit.item.custom.CrazyMaceItem;
-import vance.profit.item.custom.CrazyScytheItem;
-import vance.profit.item.custom.CrazySlotsItem;
+import vance.profit.item.custom.*;
 
 public class ModItems {
-    public static final Item SUPER_DIAMOND = registerItem("super_diamond", new Item(
-            new Item.Settings()
-                    .registryKey(RegistryKey.of(RegistryKeys.ITEM,Identifier.of(Guaranteed_profit.MOD_ID, "super_diamond")))
-    ));
 
     public static final Item CRAZY_SLOTS = registerItem("crazy_slots", new CrazySlotsItem(
             new Item.Settings()
@@ -53,6 +46,30 @@ public class ModItems {
                     .maxCount(1)
                     .fireproof()
                     .component(DataComponentTypes.CHARGED_PROJECTILES, ChargedProjectilesComponent.DEFAULT)
+    ));
+
+    public static final Item CRAZY_TRIDENT = registerItem("crazy_trident", new CrazyTridentitem(
+            new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Guaranteed_profit.MOD_ID, "crazy_trident")))
+                    .fireproof()
+                    .maxCount(1)
+                    .attributeModifiers(TridentItem.createAttributeModifiers())
+    ));
+
+    public static final Item CRAZY_AXE = registerItem("crazy_axe", new CrazyAxeItem(
+            new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Guaranteed_profit.MOD_ID, "crazy_axe")))
+                    .fireproof()
+                    .maxCount(1)
+                    .attributeModifiers(CrazyAxeItem.createAttributeModifiers())
+    ));
+
+    public static final Item CRAZY_SWORD = registerItem("crazy_sword", new CrazySwordItem(
+            new Item.Settings()
+                    .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Guaranteed_profit.MOD_ID, "crazy_sword")))
+                    .fireproof()
+                    .maxCount(1)
+                    .attributeModifiers(CrazySwordItem.createAttributeModifiers())
     ));
 
     private static Item registerItem(String name, Item item) {
