@@ -18,6 +18,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import vance.profit.item.ModItems;
@@ -45,7 +46,7 @@ public class CrazyCrossbowItem extends CrossbowItem {
             ItemStack originalItem = new ItemStack(ModItems.CRAZY_SLOTS);
 
             user.setStackInHand(hand, originalItem);
-            world.playSound(null, user.getBlockPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.35f, 1.0f);
+            world.playSound(null, user.getBlockPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.25f, 1.0f);
             return ActionResult.SUCCESS;
         }
         if (chargedProjectilesComponent != null && !chargedProjectilesComponent.isEmpty()) {
@@ -69,18 +70,18 @@ public class CrazyCrossbowItem extends CrossbowItem {
         if (!world.isClient) {
             CrossbowItem.LoadingSounds loadingSounds = this.getLoadingSounds(stack);
             float f = (float)(stack.getMaxUseTime(user) - remainingUseTicks) / (float)getPullTime(stack, user);
-            if (f < 0.2F) {
+            if (f < 0.1F) {
                 this.charged = false;
                 this.loaded = false;
             }
 
-            if (f >= 0.2F && !this.charged) {
+            if (f >= 0.1F && !this.charged) {
                 this.charged = true;
                 loadingSounds.start()
                         .ifPresent(sound -> world.playSound(null, user.getX(), user.getY(), user.getZ(), (SoundEvent)sound.value(), SoundCategory.PLAYERS, 0.5F, 1.0F));
             }
 
-            if (f >= 0.5F && !this.loaded) {
+            if (f >= 0.25F && !this.loaded) {
                 this.loaded = true;
                 loadingSounds.mid()
                         .ifPresent(sound -> world.playSound(null, user.getX(), user.getY(), user.getZ(), (SoundEvent)sound.value(), SoundCategory.PLAYERS, 0.5F, 1.0F));

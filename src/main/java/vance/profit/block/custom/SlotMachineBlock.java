@@ -7,6 +7,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -17,6 +20,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.block.WireOrientation;
@@ -46,7 +50,7 @@ public class SlotMachineBlock extends BlockWithEntity{
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, WIN); // Register the "win" and "facing" property
+        builder.add(FACING, WIN);
     }
 
     @Override
@@ -76,9 +80,8 @@ public class SlotMachineBlock extends BlockWithEntity{
 
         ItemStack handStack = player.getStackInHand(hand);
 
+        ItemStack storedStack = blockEntity.getStack(0);
         if (!handStack.isEmpty() && handStack.getItem() == Items.DIAMOND) {
-            // Deposit a diamond into the slot machine
-            ItemStack storedStack = blockEntity.getStack(0);
 
             if (storedStack.isEmpty()) {
                 blockEntity.setStack(0, handStack.split(1));
@@ -90,12 +93,10 @@ public class SlotMachineBlock extends BlockWithEntity{
             blockEntity.markDirty();
             return ActionResult.SUCCESS;
         } else {
-            // Withdraw diamonds from the slot machine
-            ItemStack storedStack = blockEntity.getStack(0);
 
             if (!storedStack.isEmpty()) {
-                player.getInventory().offerOrDrop(storedStack.copy()); // Give the full stack to the player
-                blockEntity.setStack(0, ItemStack.EMPTY); // Clear the slot
+                player.getInventory().offerOrDrop(storedStack.copy());
+                blockEntity.setStack(0, ItemStack.EMPTY);
                 blockEntity.markDirty();
                 return ActionResult.SUCCESS;
             }
@@ -123,15 +124,8 @@ public class SlotMachineBlock extends BlockWithEntity{
                     blockEntity.setLastActivatedTime(currentTime);
 
                     if (!storedStack.isEmpty() && storedStack.getCount() > 0) {
-                        storedStack.decrement(1);// Consume one diamond
-                        blockEntity.playGame(null, pos, world);// Play the game without a player
-                        if (blockEntity.getWon()) {
-                            boolean won = state.get(WIN);
-                            world.setBlockState(pos, state.with(WIN, true));
-                        } else {
-                            world.setBlockState(pos, state.with(WIN, false));
-                        }
-
+                        storedStack.decrement(1);
+                        blockEntity.playGame(null, pos, world);
 
                     }
                 }

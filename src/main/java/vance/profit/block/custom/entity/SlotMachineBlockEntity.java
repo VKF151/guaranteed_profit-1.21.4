@@ -2,34 +2,35 @@ package vance.profit.block.custom.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.datafixer.TypeReferences;
+import net.minecraft.entity.ai.brain.task.TargetUtil;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.Util;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import vance.profit.block.ModBlocks;
-import vance.profit.block.custom.SlotMachineBlock;
+import vance.profit.Guaranteed_profit;
 import vance.profit.inventory.SlotMachineInventory;
 
-import java.util.Set;
-import java.util.stream.IntStream;
+import java.util.List;
+
+import static net.minecraft.block.Block.*;
+import static vance.profit.block.custom.SlotMachineBlock.WIN;
 
 public class SlotMachineBlockEntity extends BlockEntity implements SlotMachineInventory, SidedInventory {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
@@ -55,7 +56,7 @@ public class SlotMachineBlockEntity extends BlockEntity implements SlotMachineIn
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
-        writeNBT(nbt, registryLookup); // Save inventory using SlotMachineInventory's method
+        writeNBT(nbt, registryLookup);
         nbt.putLong("LastActivatedTime", this.lastActivatedTime);
         nbt.putBoolean("WON", this.WON);
     }
@@ -63,7 +64,7 @@ public class SlotMachineBlockEntity extends BlockEntity implements SlotMachineIn
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
-        readNBT(nbt, registryLookup); // Load inventory using SlotMachineInventory's method
+        readNBT(nbt, registryLookup);
         this.lastActivatedTime = nbt.getLong("LastActivatedTime");
         this.WON = nbt.getBoolean("WON");
     }
@@ -72,30 +73,41 @@ public class SlotMachineBlockEntity extends BlockEntity implements SlotMachineIn
 
 
         if (!world.isClient) {
-            boolean win = world.random.nextFloat() <0.2;
+            boolean win = world.random.nextFloat() <0.25;
 
             BlockState currentState = world.getBlockState(pos);
-            world.setBlockState(pos, currentState.with(SlotMachineBlock.WIN, win), Block.NOTIFY_ALL);
+            world.setBlockState(pos, currentState.with(WIN, win), Block.NOTIFY_ALL);
             world.playSound(
                     null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_NOTE_BLOCK_BASS, SoundCategory.BLOCKS, 1.0f, 1.0f
             );
             if (win) {
-                if (world.getBlockEntity(pos) instanceof SlotMachineBlockEntity blockEntity) {
-                    setWON(true);
-                    int diamondsWon = 1 + world.random.nextInt(3);
-                    ItemStack reward = new ItemStack(Items.DIAMOND, diamondsWon);
-                    Block.dropStack(world, pos, reward);
-                    world.playSound(
-                            null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_NOTE_BLOCK_PLING, SoundCategory.BLOCKS, 1.0f, 1.0f
-                    );
+                setWON(true);
+                world.playSound(
+                        null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_NOTE_BLOCK_PLING, SoundCategory.BLOCKS, 1.0f, 1.0f
+                );
+                for (ItemStack itemStack : getWonItem(SlotMachineBlockEntity.this)) {
+                    dropStack(world, pos.up(), itemStack);
                 }
-            } else if (world.getBlockEntity(pos) instanceof SlotMachineBlockEntity blockEntity) {
+
+
+
+            } else {
                 setWON(false);
+                world.setBlockState(pos, currentState.with(WIN, false));
                 world.playSound(
                         null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_NOTE_BLOCK_SNARE, SoundCategory.BLOCKS, 1.0f, 1.0f
                 );
-            }
+            } markDirty();
         }
+    }
+
+    private static List<ItemStack> getWonItem(BlockEntity entity) {
+        LootTable lootTable = entity.getWorld().getServer().getReloadableRegistries().getLootTable(RegistryKey.of(RegistryKeys.LOOT_TABLE,Identifier.of(Guaranteed_profit.MOD_ID, "rewards/slot_machine")));
+        return lootTable.generateLoot(
+                new LootWorldContext.Builder((ServerWorld) entity.getWorld())
+                        .add(LootContextParameters.ORIGIN, Vec3d.ofCenter(entity.getPos()))
+                        .build(LootContextTypes.CHEST)
+        );
     }
 
     public  boolean getWon() {

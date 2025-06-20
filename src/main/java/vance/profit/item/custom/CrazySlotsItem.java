@@ -11,8 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -22,6 +25,7 @@ import vance.profit.item.ModItems;
 
 import java.util.Map;
 import java.util.Random;
+
 
 
 public class CrazySlotsItem extends Item {
@@ -35,6 +39,9 @@ public class CrazySlotsItem extends Item {
         if (!world.isClient()) {
             Random random = new Random();
             int randomNumber = random.nextInt(6) + 1;
+            ItemStack newItem = getWeaponForNumber(randomNumber);
+            player.setStackInHand(hand, newItem);
+
             if (randomNumber == 3) {
                 player.giveItemStack(new ItemStack(Items.SPECTRAL_ARROW));
                 CrazyCrossbowItem.canTransform = false;
@@ -43,10 +50,8 @@ public class CrazySlotsItem extends Item {
                     player.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.TOTEM_OF_UNDYING));
                 } else player.giveItemStack(new ItemStack(Items.TOTEM_OF_UNDYING));
             }
-            ItemStack newItem = getWeaponForNumber(randomNumber);
 
-            player.setStackInHand(hand, newItem);
-            world.playSound(null, player.getBlockPos(), SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 0.35f, 1.0f);
+            world.playSound(null, player.getBlockPos(), SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 0.25f, 1.0f);
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
