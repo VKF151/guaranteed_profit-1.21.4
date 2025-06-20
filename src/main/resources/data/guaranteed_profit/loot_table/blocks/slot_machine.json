@@ -2,7 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
@@ -14,8 +14,8 @@
           "name": "guaranteed_profit:slot_machine"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
-  "random_sequence": "guaranteed_profit:blocks/slot_machine"
+  "random_sequence": "minecraft:blocks/iron_block"
 }
