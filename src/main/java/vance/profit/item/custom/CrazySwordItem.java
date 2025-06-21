@@ -53,8 +53,7 @@ public class CrazySwordItem extends Item {
     }
 
     @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         canTransform = true;
-        return true;
     }
 }

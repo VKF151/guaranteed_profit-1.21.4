@@ -65,8 +65,8 @@ public class SlotMachineBlockEntity extends BlockEntity implements SlotMachineIn
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
         readNBT(nbt, registryLookup);
-        this.lastActivatedTime = nbt.getLong("LastActivatedTime");
-        this.WON = nbt.getBoolean("WON");
+        this.lastActivatedTime = nbt.getLong("LastActivatedTime", 1);
+        this.WON = nbt.getBoolean("WON", false);
     }
 
     public void playGame(PlayerEntity player, BlockPos pos, World world) {
