@@ -3,21 +3,21 @@ package vance.profit.block.custom.entity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ai.brain.task.TargetUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.context.LootWorldContext;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -54,19 +54,15 @@ public class SlotMachineBlockEntity extends BlockEntity implements SlotMachineIn
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.writeNbt(nbt, registryLookup);
-        writeNBT(nbt, registryLookup);
-        nbt.putLong("LastActivatedTime", this.lastActivatedTime);
-        nbt.putBoolean("WON", this.WON);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        Inventories.writeData(view, items);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.readNbt(nbt, registryLookup);
-        readNBT(nbt, registryLookup);
-        this.lastActivatedTime = nbt.getLong("LastActivatedTime", 1);
-        this.WON = nbt.getBoolean("WON", false);
+    protected void readData(ReadView view) {
+        super.readData(view);
+        Inventories.readData(view, items);
     }
 
     public void playGame(PlayerEntity player, BlockPos pos, World world) {
