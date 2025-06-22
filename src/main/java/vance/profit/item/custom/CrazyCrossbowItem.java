@@ -20,6 +20,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
@@ -47,16 +48,16 @@ public class CrazyCrossbowItem extends CrossbowItem {
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        ChargedProjectilesComponent chargedProjectilesComponent = (ChargedProjectilesComponent)itemStack.get(DataComponentTypes.CHARGED_PROJECTILES);
+        ChargedProjectilesComponent chargedProjectilesComponent = itemStack.get(DataComponentTypes.CHARGED_PROJECTILES);
         if (canTransform) {
             ItemStack originalItem = new ItemStack(ModItems.CRAZY_SLOTS);
 
             user.setStackInHand(hand, originalItem);
-            world.playSound(null, user.getBlockPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.25f, 1.0f);
+            world.playSound(null, user.getBlockPos(), SoundEvents.BLOCK_AMETHYST_CLUSTER_BREAK, SoundCategory.PLAYERS, 0.35f, 1.0f);
             return ActionResult.SUCCESS;
         }
         if (chargedProjectilesComponent != null && !chargedProjectilesComponent.isEmpty()) {
-            this.shootAll(world, user, hand, itemStack, getSpeed(chargedProjectilesComponent), 1.0F, (LivingEntity)null);
+            this.shootAll(world, user, hand, itemStack, getSpeed(chargedProjectilesComponent), 1.0F, null);
             return ActionResult.CONSUME;
         } else if (!user.getProjectileType(itemStack).isEmpty()) {
             this.charged = false;
@@ -69,6 +70,10 @@ public class CrazyCrossbowItem extends CrossbowItem {
     }
     private static float getSpeed(ChargedProjectilesComponent stack) {
         return stack.contains(Items.FIREWORK_ROCKET) ? 1.6F : 3.15F;
+    }
+    public static int getPullTime(ItemStack stack, LivingEntity user) {
+        float f = EnchantmentHelper.getCrossbowChargeTime(stack, user, 0.85F);
+        return MathHelper.floor(f * 20.0F);
     }
 
     @Override
@@ -83,22 +88,16 @@ public class CrazyCrossbowItem extends CrossbowItem {
 
             if (f >= 0.2F && !this.charged) {
                 this.charged = true;
-                loadingSounds.start().ifPresent((sound) -> {
-                    world.playSound((Entity)null, user.getX(), user.getY(), user.getZ(), (SoundEvent)sound.value(), SoundCategory.PLAYERS, 0.5F, 1.0F);
-                });
+                loadingSounds.start().ifPresent((sound) -> world.playSound(null, user.getX(), user.getY(), user.getZ(), sound.value(), SoundCategory.PLAYERS, 0.5F, 1.0F));
             }
 
             if (f >= 0.5F && !this.loaded) {
                 this.loaded = true;
-                loadingSounds.mid().ifPresent((sound) -> {
-                    world.playSound((Entity)null, user.getX(), user.getY(), user.getZ(), (SoundEvent)sound.value(), SoundCategory.PLAYERS, 0.5F, 1.0F);
-                });
+                loadingSounds.mid().ifPresent((sound) -> world.playSound(null, user.getX(), user.getY(), user.getZ(), sound.value(), SoundCategory.PLAYERS, 0.5F, 1.0F));
             }
 
             if (f >= 1.0F && !isCharged(stack) && loadProjectiles(user, stack)) {
-                loadingSounds.end().ifPresent((sound) -> {
-                    world.playSound((Entity)null, user.getX(), user.getY(), user.getZ(), (SoundEvent)sound.value(), user.getSoundCategory(), 1.0F, 1.0F / (world.getRandom().nextFloat() * 0.5F + 1.0F) + 0.2F);
-                });
+                loadingSounds.end().ifPresent((sound) -> world.playSound(null, user.getX(), user.getY(), user.getZ(), sound.value(), user.getSoundCategory(), 1.0F, 1.0F / (world.getRandom().nextFloat() * 0.5F + 1.0F) + 0.2F));
             }
         }
 
@@ -114,7 +113,7 @@ public class CrazyCrossbowItem extends CrossbowItem {
     }
 
     CrossbowItem.LoadingSounds getLoadingSounds(ItemStack stack) {
-        return (CrossbowItem.LoadingSounds)EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.CROSSBOW_CHARGING_SOUNDS)
+        return EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.CROSSBOW_CHARGING_SOUNDS)
                 .orElse(DEFAULT_LOADING_SOUNDS);
     }
 
@@ -128,23 +127,22 @@ public class CrazyCrossbowItem extends CrossbowItem {
             vector3f = calcVelocity(shooter, new Vec3d(d, g, e), yaw);
         } else {
             Vec3d vec3d = shooter.getOppositeRotationVector(1.0F);
-            Quaternionf quaternionf = (new Quaternionf()).setAngleAxis((double)(yaw * 0.017453292F), vec3d.x, vec3d.y, vec3d.z);
+            Quaternionf quaternionf = (new Quaternionf()).setAngleAxis(yaw * 0.017453292F, vec3d.x, vec3d.y, vec3d.z);
             Vec3d vec3d2 = shooter.getRotationVec(1.0F);
             vector3f = vec3d2.toVector3f().rotate(quaternionf);
         }
 
-        projectile.setVelocity((double)vector3f.x(), (double)vector3f.y(), (double)vector3f.z(), speed, divergence);
+        projectile.setVelocity(vector3f.x(), vector3f.y(), vector3f.z(), speed, divergence);
         float h = getSoundPitch(shooter.getRandom(), index);
-        shooter.getWorld().playSound((Entity)null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.ITEM_CROSSBOW_SHOOT, shooter.getSoundCategory(), 1.0F, h);
+        shooter.getWorld().playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.ITEM_CROSSBOW_SHOOT, shooter.getSoundCategory(), 1.0F, h);
     }
 
     public void shootAll(World world, LivingEntity shooter, Hand hand, ItemStack stack, float speed, float divergence, @Nullable LivingEntity target) {
         if (world instanceof ServerWorld serverWorld) {
-            ChargedProjectilesComponent chargedProjectilesComponent = (ChargedProjectilesComponent)stack.set(DataComponentTypes.CHARGED_PROJECTILES, ChargedProjectilesComponent.DEFAULT);
+            ChargedProjectilesComponent chargedProjectilesComponent = stack.set(DataComponentTypes.CHARGED_PROJECTILES, ChargedProjectilesComponent.DEFAULT);
             if (chargedProjectilesComponent != null && !chargedProjectilesComponent.isEmpty()) {
                 this.shootAll(serverWorld, shooter, hand, stack, chargedProjectilesComponent.getProjectiles(), speed, divergence, shooter instanceof PlayerEntity, target);
-                if (shooter instanceof ServerPlayerEntity) {
-                    ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)shooter;
+                if (shooter instanceof ServerPlayerEntity serverPlayerEntity) {
                     Criteria.SHOT_CROSSBOW.trigger(serverPlayerEntity, stack);
                     serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
                     canTransform = true;
