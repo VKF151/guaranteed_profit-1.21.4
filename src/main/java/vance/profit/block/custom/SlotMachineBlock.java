@@ -57,7 +57,9 @@ public class SlotMachineBlock extends BlockWithEntity{
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {Direction direction = state.get(FACING);}
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        state.get(FACING);
+    }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
@@ -112,7 +114,7 @@ public class SlotMachineBlock extends BlockWithEntity{
                 ItemStack storedStack = blockEntity.getStack(0);
 
                 long currentTime = world.getTime();
-                if (blockEntity.getLastActivatedTime() + 10 <= currentTime) {
+                if (blockEntity.getLastActivatedTime() + 5 <= currentTime) {
                     blockEntity.setLastActivatedTime(currentTime);
 
                     if (!storedStack.isEmpty() && storedStack.getCount() > 0) {

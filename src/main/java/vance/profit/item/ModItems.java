@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ChargedProjectilesComponent;
+import net.minecraft.component.type.DeathProtectionComponent;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -69,6 +70,7 @@ public class ModItems {
                     .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Guaranteed_profit.MOD_ID, "crazy_sword")))
                     .fireproof()
                     .maxCount(1)
+                    .component(DataComponentTypes.DEATH_PROTECTION, DeathProtectionComponent.TOTEM_OF_UNDYING)
                     .attributeModifiers(CrazySwordItem.createAttributeModifiers())
     ));
 
@@ -90,6 +92,12 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(GUARANTEED_PROFIT_GROUP_KEY).register(fabricItemGroupEntries -> {
             fabricItemGroupEntries.add(ModBlocks.SLOT_MACHINE.asItem());
             fabricItemGroupEntries.add(ModItems.CRAZY_SLOTS);
+            fabricItemGroupEntries.add(ModItems.CRAZY_SWORD);
+            fabricItemGroupEntries.add(ModItems.CRAZY_SCYTHE);
+            fabricItemGroupEntries.add(ModItems.CRAZY_MACE);
+            fabricItemGroupEntries.add(ModItems.CRAZY_TRIDENT);
+            fabricItemGroupEntries.add(ModItems.CRAZY_AXE);
+            fabricItemGroupEntries.add(ModItems.CRAZY_CROSSBOW);
         });
     }
 }

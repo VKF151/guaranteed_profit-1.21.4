@@ -46,7 +46,7 @@ public class CrazyTridentitem extends TridentItem {
                 ItemStack originalItem = new ItemStack(ModItems.CRAZY_SLOTS);
 
                 user.setStackInHand(hand, originalItem);
-                world.playSound(null, user.getBlockPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.35f, 1.0f);
+                world.playSound(null, user.getBlockPos(), SoundEvents.BLOCK_AMETHYST_CLUSTER_BREAK, SoundCategory.PLAYERS, 0.35f, 1.0f);
                 canTransform = false;
                 return ActionResult.SUCCESS;
             }
@@ -74,7 +74,7 @@ public class CrazyTridentitem extends TridentItem {
                 } else if (stack.willBreakNextUse()) {
                     return false;
                 } else {
-                    RegistryEntry<SoundEvent> registryEntry = (RegistryEntry<SoundEvent>)EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.TRIDENT_SOUND)
+                    RegistryEntry<SoundEvent> registryEntry = EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.TRIDENT_SOUND)
                             .orElse(SoundEvents.ITEM_TRIDENT_RIPTIDE_2);
                     playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
 
@@ -87,10 +87,9 @@ public class CrazyTridentitem extends TridentItem {
                     j *= 3 / m;
                     k *= 3 / m;
                     l *= 3 / m;
-                    playerEntity.addVelocity((double)j, (double)k, (double)l);
+                    playerEntity.addVelocity(j, k, l);
                     playerEntity.useRiptide(20, 8.0F, stack);
                     if (playerEntity.isOnGround()) {
-                        float n = 1.1999999F;
                         playerEntity.move(MovementType.SELF, new Vec3d(0.0, 1.1999999F, 0.0));
                     }
 
